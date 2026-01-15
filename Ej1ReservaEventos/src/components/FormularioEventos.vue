@@ -1,4 +1,20 @@
 <script setup lang="ts">
+import { reactive, ref } from 'vue';
+
+const formulario = reactive({
+  nombre: '',
+  nif: '',
+  telefono: '',
+  email: '',
+  tipoEvento: '',
+  fechaEvento: '',
+  horaInicio: '',
+  asistentesNumber: 10,
+})
+
+
+
+
 </script>
 
 <template>
