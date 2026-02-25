@@ -1,27 +1,28 @@
 <script setup lang="ts">
 import { useCheckout } from '@/composables/useCheckout'
-
-const { billingData, shippingData } = useCheckout()
+const { billingData, shippingData, paymentData, totals } = useCheckout()
 </script>
 
 <template>
-  <div class="step-confirmation">
-    <h2>Confirmación de Pedido</h2>
-    <p>Revise sus datos antes de finalizar.</p>
-
-    <div class="summary-section">
-      <h3>Datos de Facturación</h3>
-      <p>{{ billingData.fullName }}</p>
-      <p>{{ billingData.email }}</p>
-    </div>
-
-    <div class="summary-section">
-      <h3>Dirección de Envío</h3>
-      <p v-if="shippingData.sameAsBilling">Misma que facturación</p>
-      <div v-else>
-        <p>{{ shippingData.fullName }}</p>
-        <p>{{ shippingData.address }}</p>
+  <div>
+    <h2>Resumen</h2>
+    <div class="p-3 bg-light border rounded">
+      <p><strong>Cliente:</strong> {{ billingData.fullName }}</p>
+      <p><strong>Envío:</strong> {{ shippingData.sameAsBilling ? 'Dirección facturación' : shippingData.address }}</p>
+      <p><strong>Pago:</strong> {{ paymentData.method.toUpperCase() }}</p>
+      <hr>
+      <div class="d-flex justify-content-between">
+        <span>Subtotal:</span><span>{{ totals.subtotal }}€</span>
       </div>
+      <div class="d-flex justify-content-between text-success" v-if="totals.discount > 0">
+        <span>Descuento:</span><span>-{{ totals.discount }}€</span>
+      </div>
+      <div class="d-flex justify-content-between fw-bold">
+        <span>TOTAL:</span><span>{{ totals.total }}€</span>
+      </div>
+    </div>
+    <div class="mt-3">
+      <label><input type="checkbox" required> Acepto los términos y condiciones</label>
     </div>
   </div>
 </template>
